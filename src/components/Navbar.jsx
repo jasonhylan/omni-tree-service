@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
+import { TreePine, Phone, Menu, X } from 'lucide-react'
 
-const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -14,195 +15,92 @@ const Navbar = () => {
 
   const navLinks = [
     { label: 'Services', href: '#services' },
-    { label: 'Our Approach', href: '#philosophy' },
-    { label: 'Our Process', href: '#protocol' },
+    { label: 'Our Philosophy', href: '#philosophy' },
+    { label: 'Our Protocol', href: '#protocol' },
     { label: 'Contact', href: '#contact' },
   ]
 
   return (
-    <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000,
-      padding: scrolled ? '0.75rem 2rem' : '1.25rem 2rem',
-      background: scrolled
-        ? 'rgba(26, 46, 26, 0.97)'
-        : 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-      boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.15)' : 'none',
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled
+        ? 'bg-black/90 backdrop-blur-md border-b border-white/10 py-3'
+        : 'bg-transparent py-5'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            background: 'linear-gradient(135deg, #4a8c4a 0%, #2d5a2d 100%)',
-            borderRadius: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1.3rem',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-          }}>
-            🌳
+        <a href="#" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 bg-gradient-to-br from-green-700 to-green-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-green-500/30 transition-all duration-300">
+            <TreePine className="w-6 h-6 text-white" />
           </div>
           <div>
-            <div style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: '1.2rem',
-              fontWeight: '600',
-              color: '#ffffff',
-              lineHeight: 1.1,
-              letterSpacing: '0.01em',
-            }}>
-              Omni Tree
-            </div>
-            <div style={{
-              fontSize: '0.65rem',
-              fontWeight: '500',
-              color: '#a0c8a0',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-            }}>
-              Service
-            </div>
+            <span className="text-white font-bold text-lg leading-none block">Omni Tree</span>
+            <span className="text-green-400 text-xs font-medium tracking-wider uppercase">Service</span>
           </div>
-        </div>
+        </a>
 
-        {/* Desktop Nav Links */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2.5rem',
-        }} className="desktop-nav">
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map(link => (
             <a
               key={link.label}
               href={link.href}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                color: 'rgba(255,255,255,0.85)',
-                letterSpacing: '0.03em',
-                transition: 'color 0.2s ease',
-                cursor: 'pointer',
-              }}
-              onMouseEnter={e => e.target.style.color = '#a0c8a0'}
-              onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.85)'}
+              className="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-200 relative group"
             >
               {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-400 group-hover:w-full transition-all duration-300" />
             </a>
           ))}
+        </div>
+
+        {/* CTA */}
+        <div className="hidden md:flex items-center gap-4">
           <a
-            href="tel:+15551234567"
-            style={{
-              background: 'linear-gradient(135deg, #d4821a 0%, #b86e14 100%)',
-              color: '#ffffff',
-              padding: '0.55rem 1.4rem',
-              borderRadius: '6px',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              fontFamily: "'Inter', sans-serif",
-              letterSpacing: '0.02em',
-              boxShadow: '0 2px 8px rgba(212, 130, 26, 0.35)',
-              transition: 'all 0.2s ease',
-              whiteSpace: 'nowrap',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-1px)'
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(212, 130, 26, 0.45)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(212, 130, 26, 0.35)'
-            }}
+            href="tel:+15125550123"
+            className="flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
           >
-            📞 Call Now
+            <Phone className="w-4 h-4" />
+            (512) 555-0123
+          </a>
+          <a
+            href="#contact"
+            className="bg-green-700 hover:bg-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-green-700/30"
+          >
+            Free Estimate
           </a>
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile Menu Button */}
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={{
-            display: 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '0.5rem',
-            color: '#ffffff',
-            fontSize: '1.5rem',
-          }}
-          className="mobile-menu-btn"
-          aria-label="Toggle menu"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
         >
-          {menuOpen ? '✕' : '☰'}
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div style={{
-          background: 'rgba(26, 46, 26, 0.98)',
-          padding: '1.5rem 2rem',
-          borderTop: '1px solid rgba(255,255,255,0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-        }}>
-          {navLinks.map(link => (
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-6 py-4">
+          <div className="flex flex-col gap-4">
+            {navLinks.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-300 hover:text-white text-sm font-medium py-2 border-b border-white/5 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
             <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                color: 'rgba(255,255,255,0.85)',
-                fontSize: '1rem',
-                fontWeight: '500',
-                padding: '0.5rem 0',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
-              }}
+              href="#contact"
+              className="bg-green-700 hover:bg-green-600 text-white px-5 py-3 rounded-lg text-sm font-semibold text-center transition-colors mt-2"
             >
-              {link.label}
+              Free Estimate
             </a>
-          ))}
-          <a
-            href="tel:+15551234567"
-            style={{
-              background: 'linear-gradient(135deg, #d4821a 0%, #b86e14 100%)',
-              color: '#ffffff',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '6px',
-              fontSize: '1rem',
-              fontWeight: '600',
-              textAlign: 'center',
-              marginTop: '0.5rem',
-            }}
-          >
-            📞 Call Now
-          </a>
+          </div>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
-        }
-      `}</style>
     </nav>
   )
 }
-
-export default Navbar

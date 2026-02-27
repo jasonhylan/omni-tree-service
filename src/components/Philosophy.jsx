@@ -1,184 +1,90 @@
-const Philosophy = () => {
-  const values = [
-    {
-      number: '01',
-      title: 'We Show Up',
-      body: 'On time, prepared, and ready to work. We respect your time because we know you have a life to run.',
-    },
-    {
-      number: '02',
-      title: 'We Explain, Not Just Execute',
-      body: 'Before we touch a single branch, we walk you through what we see, what we recommend, and why. No guesswork, no surprises.',
-    },
-    {
-      number: '03',
-      title: 'We Leave It Better',
-      body: 'Every job ends with a thorough cleanup. Your yard should look better after we leave than when we arrived.',
-    },
-    {
-      number: '04',
-      title: 'We Stand Behind Our Work',
-      body: 'If something isn't right, we make it right. That's not a policy — it's just how we were raised to do business.',
-    },
-  ]
+import { Leaf, Heart, Mountain, Recycle } from 'lucide-react'
 
+const pillars = [
+  {
+    icon: Leaf,
+    title: 'Tree-First Approach',
+    description: 'We only recommend removal when absolutely necessary. Our certified arborists explore every option to preserve and rehabilitate trees before considering removal.',
+    accent: 'text-green-400',
+    bg: 'bg-green-900/20',
+    border: 'border-green-700/20',
+  },
+  {
+    icon: Heart,
+    title: 'Property Respect',
+    description: 'Your property is treated like our own. We use protective ground coverings, careful rigging systems, and meticulous cleanup protocols to leave your yard better than we found it.',
+    accent: 'text-rose-400',
+    bg: 'bg-rose-900/20',
+    border: 'border-rose-700/20',
+  },
+  {
+    icon: Mountain,
+    title: 'Safety Above All',
+    description: 'Every job follows ANSI Z133 safety standards. Our team is fully equipped with professional PPE, and we carry $2M in liability insurance so you\'re fully protected.',
+    accent: 'text-blue-400',
+    bg: 'bg-blue-900/20',
+    border: 'border-blue-700/20',
+  },
+  {
+    icon: Recycle,
+    title: 'Environmental Stewardship',
+    description: 'Wood waste is chipped for mulch, logs are repurposed for firewood, and we partner with local nurseries to replant native species whenever trees are removed.',
+    accent: 'text-teal-400',
+    bg: 'bg-teal-900/20',
+    border: 'border-teal-700/20',
+  },
+]
+
+export default function Philosophy() {
   return (
-    <section id="philosophy" style={{
-      padding: '6rem 1.5rem',
-      background: 'linear-gradient(160deg, var(--forest-deep) 0%, var(--forest-mid) 50%, #1a3d2a 100%)',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      {/* Background texture */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: 'radial-gradient(ellipse at 80% 20%, rgba(212, 130, 26, 0.06) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(74, 140, 74, 0.08) 0%, transparent 50%)',
-      }} />
-
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '5rem',
-          alignItems: 'start',
-        }} className="philosophy-grid">
-          {/* Left: Intro text */}
+    <section id="philosophy" className="bg-gray-950 py-24 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Left: Text content */}
           <div>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--amber-warm)',
-              marginBottom: '0.75rem',
-            }}>Our Approach</p>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
-              color: '#ffffff',
-              marginBottom: '1.5rem',
-              lineHeight: 1.2,
-            }}>Good Work Speaks
-            <br />for Itself.</h2>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.05rem',
-              color: 'rgba(255,255,255,0.72)',
-              lineHeight: 1.8,
-              marginBottom: '1.5rem',
-            }}>
-              We've been doing this long enough to know that the best marketing
-              is a satisfied neighbor. That's why we focus on the work — not the
-              upsell.
-            </p>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.05rem',
-              color: 'rgba(255,255,255,0.72)',
-              lineHeight: 1.8,
-            }}>
-              Every crew member is trained to the same standard: do it right,
-              explain it clearly, and clean up completely. No exceptions.
-            </p>
-
-            {/* Stats */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '1.5rem',
-              marginTop: '3rem',
-            }}>
-              {[
-                { value: '15+', label: 'Years in Business' },
-                { value: '2,400+', label: 'Trees Cared For' },
-                { value: '98%', label: 'Customer Satisfaction' },
-                { value: '24/7', label: 'Emergency Available' },
-              ].map((stat, i) => (
-                <div key={i} style={{
-                  borderLeft: '2px solid rgba(212, 130, 26, 0.4)',
-                  paddingLeft: '1rem',
-                }}>
-                  <div style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: '2rem',
-                    fontWeight: '700',
-                    color: '#ffffff',
-                    lineHeight: 1,
-                    marginBottom: '0.25rem',
-                  }}>{stat.value}</div>
-                  <div style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.8rem',
-                    color: 'rgba(255,255,255,0.55)',
-                    letterSpacing: '0.05em',
-                  }}>{stat.label}</div>
-                </div>
-              ))}
+            <div className="inline-flex items-center gap-2 bg-green-900/20 border border-green-700/30 text-green-400 text-xs font-semibold tracking-wider uppercase px-4 py-2 rounded-full mb-6">
+              Our Philosophy
             </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              We Don't Just
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
+                Cut Trees.
+              </span>
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed mb-8">
+              Omni Tree Service was built on a simple belief: every tree has value. 
+              Our job is to help you understand that value, care for it properly, 
+              and only act when truly necessary — with precision, care, and respect.
+            </p>
+            <p className="text-gray-500 leading-relaxed">
+              Founded by ISA Certified Arborists with over 15 years of combined experience, 
+              we approach every project as stewards of the urban forest — balancing the needs 
+              of property owners with the long-term health of the trees in our community.
+            </p>
           </div>
 
-          {/* Right: Values list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-            {values.map((v, i) => (
-              <div
-                key={i}
-                style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '12px',
-                  padding: '1.5rem',
-                  transition: 'background 0.3s ease',
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.07)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
-              >
-                <div style={{
-                  display: 'flex',
-                  gap: '1rem',
-                  alignItems: 'flex-start',
-                }}>
-                  <span style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: '1.5rem',
-                    fontWeight: '700',
-                    color: 'rgba(212, 130, 26, 0.5)',
-                    lineHeight: 1,
-                    minWidth: '2.5rem',
-                  }}>{v.number}</span>
-                  <div>
-                    <h4 style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontSize: '1.1rem',
-                      color: '#ffffff',
-                      marginBottom: '0.5rem',
-                    }}>{v.title}</h4>
-                    <p style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.9rem',
-                      color: 'rgba(255,255,255,0.6)',
-                      lineHeight: 1.7,
-                      margin: 0,
-                    }}>{v.body}</p>
+          {/* Right: Pillar cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {pillars.map((pillar, i) => {
+              const Icon = pillar.icon
+              return (
+                <div
+                  key={i}
+                  className={`${pillar.bg} border ${pillar.border} rounded-2xl p-6 hover:scale-105 transition-transform duration-200`}
+                >
+                  <div className={`w-10 h-10 ${pillar.bg} rounded-xl flex items-center justify-center mb-4 border ${pillar.border}`}>
+                    <Icon className={`w-5 h-5 ${pillar.accent}`} />
                   </div>
+                  <h3 className="text-white font-semibold mb-2">{pillar.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{pillar.description}</p>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .philosophy-grid {
-            grid-template-columns: 1fr !important;
-            gap: 3rem !important;
-          }
-        }
-      `}</style>
     </section>
   )
 }
-
-export default Philosophy

@@ -1,335 +1,216 @@
-const CTASection = () => {
+import { useState } from 'react'
+import { Send, Phone, MapPin, Clock, CheckCircle } from 'lucide-react'
+
+export default function CTASection() {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    message: '',
+    urgency: 'standard',
+  })
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // In production, this would send to a backend
+    setSubmitted(true)
+  }
+
+  const services = [
+    'Tree Removal',
+    'Trimming & Pruning',
+    'Emergency Service',
+    'Stump Grinding',
+    'Tree Planting',
+    'Tree Health Assessment',
+    'Other',
+  ]
+
   return (
-    <section id="contact" style={{
-      padding: '6rem 1.5rem',
-      background: 'linear-gradient(160deg, #1a2e1a 0%, #2d5a2d 50%, #1a3d1a 100%)',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      {/* Background accents */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: `
-          radial-gradient(ellipse at 0% 100%, rgba(212, 130, 26, 0.08) 0%, transparent 50%),
-          radial-gradient(ellipse at 100% 0%, rgba(74, 140, 74, 0.1) 0%, transparent 50%)
-        `,
-      }} />
+    <section id="contact" className="bg-gray-950 py-24 px-6">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-green-900/20 border border-green-700/30 text-green-400 text-xs font-semibold tracking-wider uppercase px-4 py-2 rounded-full mb-6">
+            Get In Touch
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Request Your Free Estimate
+          </h2>
+          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+            No pressure. No obligation. Just honest advice from a certified arborist.
+          </p>
+        </div>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '5rem',
-          alignItems: 'start',
-        }} className="cta-grid">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
           
-          {/* Left: Main CTA */}
-          <div>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--amber-warm)',
-              marginBottom: '0.75rem',
-            }}>Get Started</p>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
-              color: '#ffffff',
-              marginBottom: '1.25rem',
-              lineHeight: 1.2,
-            }}>Ready for a Free
-            <br />Estimate?</h2>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '1.05rem',
-              color: 'rgba(255,255,255,0.68)',
-              lineHeight: 1.8,
-              marginBottom: '2.5rem',
-              maxWidth: '420px',
-            }}>
-              We'll come out, assess your trees, and give you a clear written
-              quote — no pressure, no obligation, no surprises.
-            </p>
-
-            {/* Contact Options */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
-              <a
-                href="tel:+15551234567"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  background: 'linear-gradient(135deg, #d4821a 0%, #b86e14 100%)',
-                  color: '#ffffff',
-                  padding: '1rem 1.5rem',
-                  borderRadius: '10px',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  boxShadow: '0 4px 20px rgba(212, 130, 26, 0.35)',
-                  transition: 'all 0.3s ease',
-                  maxWidth: '320px',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                  e.currentTarget.style.boxShadow = '0 6px 25px rgba(212, 130, 26, 0.45)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(212, 130, 26, 0.35)'
-                }}
-              >
-                <span style={{ fontSize: '1.4rem' }}>📞</span>
-                <div>
-                  <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '0.1rem' }}>Call Us Directly</div>
-                  <div style={{ fontSize: '1.1rem' }}>(555) 123-4567</div>
+          {/* Contact Info */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            <div className="bg-white/3 border border-white/10 rounded-2xl p-6">
+              <h3 className="text-white font-semibold mb-5">Contact Information</h3>
+              <div className="space-y-4">
+                <a href="tel:+15125550123" className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-green-900/30 border border-green-700/30 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-900/50 transition-colors">
+                    <Phone className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs">Call or Text</div>
+                    <div className="text-white font-medium">(512) 555-0123</div>
+                  </div>
+                </a>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-green-900/30 border border-green-700/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs">Service Area</div>
+                    <div className="text-white font-medium">Austin & Surrounding Areas</div>
+                    <div className="text-gray-500 text-xs">Round Rock, Cedar Park, Pflugerville, Georgetown</div>
+                  </div>
                 </div>
-              </a>
-
-              <a
-                href="mailto:hello@omnitreeservice.com"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  background: 'rgba(255,255,255,0.06)',
-                  color: 'rgba(255,255,255,0.85)',
-                  padding: '1rem 1.5rem',
-                  borderRadius: '10px',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: '500',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  transition: 'all 0.3s ease',
-                  maxWidth: '320px',
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-              >
-                <span style={{ fontSize: '1.4rem' }}>✉️</span>
-                <div>
-                  <div style={{ fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.1rem' }}>Email Us</div>
-                  <div>hello@omnitreeservice.com</div>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-green-900/30 border border-green-700/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-gray-500 text-xs">Hours</div>
+                    <div className="text-white font-medium">Mon–Sat: 7am – 7pm</div>
+                    <div className="text-gray-500 text-xs">24/7 Emergency Response</div>
+                  </div>
                 </div>
-              </a>
+              </div>
             </div>
 
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.85rem',
-              color: 'rgba(255,255,255,0.45)',
-              lineHeight: 1.6,
-            }}>
-              Mon–Sat: 7am – 6pm &nbsp;·&nbsp; Emergency: 24/7
-            </p>
+            {/* Why choose us */}
+            <div className="bg-green-900/10 border border-green-700/20 rounded-2xl p-6">
+              <h3 className="text-white font-semibold mb-4">Why Choose Omni?</h3>
+              <ul className="space-y-3">
+                {[
+                  'Free, no-pressure estimates',
+                  'Written proposals within 24 hours',
+                  'Licensed & insured ($2M coverage)',
+                  'ISA Certified Arborists',
+                  '30-day labor warranty',
+                  'Senior & veteran discounts',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <span className="text-gray-300 text-sm">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Right: Form */}
-          <div style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '16px',
-            padding: '2.5rem',
-          }}>
-            <h3 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: '1.5rem',
-              color: '#ffffff',
-              marginBottom: '1.75rem',
-            }}>Request an Estimate</h3>
-
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{
-                    display: 'block',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.8rem',
-                    fontWeight: '500',
-                    color: 'rgba(255,255,255,0.6)',
-                    marginBottom: '0.4rem',
-                    letterSpacing: '0.03em',
-                  }}>First Name</label>
-                  <input
-                    type="text"
-                    placeholder="John"
-                    style={{
-                      width: '100%',
-                      padding: '0.7rem 1rem',
-                      background: 'rgba(255,255,255,0.07)',
-                      border: '1px solid rgba(255,255,255,0.15)',
-                      borderRadius: '8px',
-                      color: '#ffffff',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.9rem',
-                      outline: 'none',
-                    }}
+          {/* Form */}
+          <div className="lg:col-span-3">
+            {submitted ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-12 bg-green-900/10 border border-green-700/20 rounded-2xl">
+                <div className="w-16 h-16 bg-green-900/40 rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle className="w-8 h-8 text-green-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">Request Received!</h3>
+                <p className="text-gray-400 max-w-sm">
+                  We'll contact you within 2 business hours to schedule your free estimate. 
+                  For urgent needs, call us directly at (512) 555-0123.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="bg-white/3 border border-white/10 rounded-2xl p-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                  <div>
+                    <label className="block text-gray-400 text-sm mb-2">Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={e => setFormData({...formData, name: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-green-500/50 focus:bg-white/8 transition-all text-sm"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 text-sm mb-2">Phone *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={e => setFormData({...formData, phone: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-green-500/50 transition-all text-sm"
+                      placeholder="(512) 555-0000"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                  <div>
+                    <label className="block text-gray-400 text-sm mb-2">Email</label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={e => setFormData({...formData, email: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-green-500/50 transition-all text-sm"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 text-sm mb-2">Service Needed</label>
+                    <select
+                      value={formData.service}
+                      onChange={e => setFormData({...formData, service: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500/50 transition-all text-sm appearance-none"
+                    >
+                      <option value="" className="bg-gray-900">Select a service...</option>
+                      {services.map(s => (
+                        <option key={s} value={s} className="bg-gray-900">{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="mb-5">
+                  <label className="block text-gray-400 text-sm mb-2">Urgency</label>
+                  <div className="flex gap-3">
+                    {[{value:'standard', label:'Standard'},{value:'soon', label:'Within a week'},{value:'urgent', label:'Urgent / Emergency'}].map(opt => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setFormData({...formData, urgency: opt.value})}
+                        className={`flex-1 py-2.5 rounded-lg text-xs font-medium border transition-all ${
+                          formData.urgency === opt.value
+                            ? 'bg-green-900/40 border-green-600/50 text-green-300'
+                            : 'bg-white/3 border-white/10 text-gray-400 hover:border-white/20'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <label className="block text-gray-400 text-sm mb-2">Tell us about your trees</label>
+                  <textarea
+                    value={formData.message}
+                    onChange={e => setFormData({...formData, message: e.target.value})}
+                    rows={4}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-green-500/50 transition-all text-sm resize-none"
+                    placeholder="Describe what you need help with (size, location, any concerns)..."
                   />
                 </div>
-                <div>
-                  <label style={{
-                    display: 'block',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.8rem',
-                    fontWeight: '500',
-                    color: 'rgba(255,255,255,0.6)',
-                    marginBottom: '0.4rem',
-                    letterSpacing: '0.03em',
-                  }}>Last Name</label>
-                  <input
-                    type="text"
-                    placeholder="Smith"
-                    style={{
-                      width: '100%',
-                      padding: '0.7rem 1rem',
-                      background: 'rgba(255,255,255,0.07)',
-                      border: '1px solid rgba(255,255,255,0.15)',
-                      borderRadius: '8px',
-                      color: '#ffffff',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.9rem',
-                      outline: 'none',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label style={{
-                  display: 'block',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.8rem',
-                  fontWeight: '500',
-                  color: 'rgba(255,255,255,0.6)',
-                  marginBottom: '0.4rem',
-                  letterSpacing: '0.03em',
-                }}>Phone Number</label>
-                <input
-                  type="tel"
-                  placeholder="(555) 000-0000"
-                  style={{
-                    width: '100%',
-                    padding: '0.7rem 1rem',
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    borderRadius: '8px',
-                    color: '#ffffff',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.9rem',
-                    outline: 'none',
-                  }}
-                />
-              </div>
-
-              <div>
-                <label style={{
-                  display: 'block',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.8rem',
-                  fontWeight: '500',
-                  color: 'rgba(255,255,255,0.6)',
-                  marginBottom: '0.4rem',
-                  letterSpacing: '0.03em',
-                }}>Service Needed</label>
-                <select
-                  style={{
-                    width: '100%',
-                    padding: '0.7rem 1rem',
-                    background: 'rgba(30, 50, 30, 0.95)',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    borderRadius: '8px',
-                    color: 'rgba(255,255,255,0.85)',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.9rem',
-                    outline: 'none',
-                    cursor: 'pointer',
-                  }}
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-3 bg-green-700 hover:bg-green-600 text-white py-4 rounded-xl font-semibold text-sm transition-all duration-200 hover:shadow-lg hover:shadow-green-700/30 hover:-translate-y-0.5"
                 >
-                  <option value="">Select a service...</option>
-                  <option value="trimming">Tree Trimming & Pruning</option>
-                  <option value="removal">Tree Removal</option>
-                  <option value="emergency">Emergency Service</option>
-                  <option value="health">Tree Health & Care</option>
-                  <option value="stump">Stump Grinding</option>
-                  <option value="consulting">Arborist Consulting</option>
-                </select>
-              </div>
-
-              <div>
-                <label style={{
-                  display: 'block',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '0.8rem',
-                  fontWeight: '500',
-                  color: 'rgba(255,255,255,0.6)',
-                  marginBottom: '0.4rem',
-                  letterSpacing: '0.03em',
-                }}>Tell Us More (Optional)</label>
-                <textarea
-                  placeholder="Describe what you need help with..."
-                  rows={3}
-                  style={{
-                    width: '100%',
-                    padding: '0.7rem 1rem',
-                    background: 'rgba(255,255,255,0.07)',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    borderRadius: '8px',
-                    color: '#ffffff',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.9rem',
-                    outline: 'none',
-                    resize: 'vertical',
-                  }}
-                />
-              </div>
-
-              <button
-                type="submit"
-                style={{
-                  background: 'linear-gradient(135deg, #d4821a 0%, #b86e14 100%)',
-                  color: '#ffffff',
-                  padding: '0.9rem 2rem',
-                  borderRadius: '8px',
-                  border: 'none',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  letterSpacing: '0.02em',
-                  boxShadow: '0 4px 16px rgba(212, 130, 26, 0.35)',
-                  transition: 'all 0.3s ease',
-                  marginTop: '0.5rem',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                  e.currentTarget.style.boxShadow = '0 6px 22px rgba(212, 130, 26, 0.45)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(212, 130, 26, 0.35)'
-                }}
-              >
-                Request My Free Estimate →
-              </button>
-            </form>
+                  <Send className="w-4 h-4" />
+                  Send Estimate Request
+                </button>
+                <p className="text-gray-600 text-xs text-center mt-4">We respond within 2 business hours. No spam, ever.</p>
+              </form>
+            )}
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .cta-grid {
-            grid-template-columns: 1fr !important;
-            gap: 3rem !important;
-          }
-        }
-      `}</style>
     </section>
   )
 }
-
-export default CTASection

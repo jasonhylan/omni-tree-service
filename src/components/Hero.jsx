@@ -1,208 +1,86 @@
-const Hero = () => {
+import { ArrowRight, Shield, Clock, Star } from 'lucide-react'
+
+export default function Hero() {
   return (
-    <section style={{
-      position: 'relative',
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      overflow: 'hidden',
-      background: 'linear-gradient(160deg, #0f1f0f 0%, #1a2e1a 30%, #2d5a2d 70%, #1a3d1a 100%)',
-    }}>
-      {/* Organic texture overlay */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: `
-          radial-gradient(ellipse at 20% 50%, rgba(74, 140, 74, 0.15) 0%, transparent 60%),
-          radial-gradient(ellipse at 80% 20%, rgba(212, 130, 26, 0.08) 0%, transparent 50%),
-          radial-gradient(ellipse at 60% 80%, rgba(45, 90, 45, 0.2) 0%, transparent 50%)
-        `,
-      }} />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-950 to-black" />
+      
+      {/* Subtle green glow orbs */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-900/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-green-800/15 rounded-full blur-3xl" />
+      
+      {/* Grid overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      />
 
-      {/* Subtle grid pattern */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
-        backgroundSize: '60px 60px',
-        opacity: 0.5,
-      }} />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 bg-green-900/30 border border-green-700/40 text-green-400 text-xs font-semibold tracking-wider uppercase px-4 py-2 rounded-full mb-8">
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          Austin, TX — Licensed & Insured
+        </div>
 
-      {/* Tree silhouette decorative element */}
-      <div style={{
-        position: 'absolute',
-        right: '-5%',
-        bottom: '-10%',
-        width: '55%',
-        height: '110%',
-        background: 'radial-gradient(ellipse at center, rgba(74, 140, 74, 0.06) 0%, transparent 70%)',
-        transform: 'rotate(-10deg)',
-      }} />
+        {/* Headline */}
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          Expert Tree Care
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
+            Done Right.
+          </span>
+        </h1>
 
-      {/* Content */}
-      <div style={{
-        position: 'relative',
-        zIndex: 2,
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '8rem 2rem 5rem',
-        width: '100%',
-      }}>
-        <div style={{ maxWidth: '720px' }}>
-          {/* Trust badge */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'rgba(74, 140, 74, 0.15)',
-            border: '1px solid rgba(74, 140, 74, 0.3)',
-            borderRadius: '100px',
-            padding: '0.4rem 1rem',
-            marginBottom: '2rem',
-          }}>
-            <span style={{ fontSize: '0.75rem', color: '#a0c8a0', fontWeight: '600', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter', sans-serif" }}>
-              Serving Our Community Since 2009
-            </span>
+        {/* Subheading */}
+        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
+          Omni Tree Service delivers professional tree removal, trimming, and emergency care 
+          with precision, safety, and respect for your property.
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a
+            href="#contact"
+            className="group flex items-center gap-3 bg-green-700 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:shadow-xl hover:shadow-green-700/30 hover:-translate-y-0.5"
+          >
+            Get Free Estimate
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </a>
+          <a
+            href="tel:+15125550123"
+            className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200"
+          >
+            Call (512) 555-0123
+          </a>
+        </div>
+
+        {/* Trust indicators */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-400">
+          <div className="flex items-center gap-2">
+            <Shield className="w-4 h-4 text-green-400" />
+            <span>Fully Insured</span>
           </div>
-
-          {/* Main headline */}
-          <h1 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-            fontWeight: '700',
-            color: '#ffffff',
-            lineHeight: 1.05,
-            marginBottom: '1.5rem',
-            letterSpacing: '-0.02em',
-          }}>
-            Your Trees Deserve
-            <br />
-            <span style={{
-              background: 'linear-gradient(135deg, #6ab86a 0%, #a0c8a0 50%, #d4821a 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              Expert Hands.
-            </span>
-          </h1>
-
-          {/* Sub-headline */}
-          <p style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
-            color: 'rgba(255,255,255,0.72)',
-            lineHeight: 1.75,
-            marginBottom: '2.5rem',
-            maxWidth: '560px',
-          }}>
-            We're a local crew that takes pride in every cut. Certified arborists,
-            honest pricing, and the kind of care your property deserves.
-          </p>
-
-          {/* CTA Buttons */}
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-            flexWrap: 'wrap',
-            marginBottom: '3.5rem',
-          }}>
-            <a
-              href="#contact"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'linear-gradient(135deg, #d4821a 0%, #b86e14 100%)',
-                color: '#ffffff',
-                padding: '0.9rem 2rem',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: '600',
-                fontFamily: "'Inter', sans-serif",
-                boxShadow: '0 4px 20px rgba(212, 130, 26, 0.4)',
-                transition: 'all 0.3s ease',
-                letterSpacing: '0.02em',
-              }}
-            >
-              Get a Free Estimate
-              <span style={{ fontSize: '1.1rem' }}>→</span>
-            </a>
-            <a
-              href="#services"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'rgba(255,255,255,0.08)',
-                color: 'rgba(255,255,255,0.9)',
-                padding: '0.9rem 2rem',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: '500',
-                fontFamily: "'Inter', sans-serif",
-                border: '1px solid rgba(255,255,255,0.15)',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              See Our Services
-            </a>
+          <div className="flex items-center gap-2">
+            <Star className="w-4 h-4 text-green-400" />
+            <span>500+ Jobs Completed</span>
           </div>
-
-          {/* Trust signals row */}
-          <div style={{
-            display: 'flex',
-            gap: '2rem',
-            flexWrap: 'wrap',
-          }}>
-            {[
-              { icon: '✓', label: 'Licensed & Insured' },
-              { icon: '✓', label: 'ISA Certified Arborists' },
-              { icon: '✓', label: 'Free Estimates' },
-              { icon: '✓', label: '24/7 Emergency Service' },
-            ].map((item, i) => (
-              <div key={i} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                color: 'rgba(255,255,255,0.65)',
-                fontSize: '0.85rem',
-                fontFamily: "'Inter', sans-serif",
-                fontWeight: '500',
-              }}>
-                <span style={{ color: '#6ab86a', fontWeight: '700', fontSize: '1rem' }}>{item.icon}</span>
-                {item.label}
-              </div>
-            ))}
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-green-400" />
+            <span>24/7 Emergency Service</span>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div style={{
-        position: 'absolute',
-        bottom: '2rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '0.5rem',
-        color: 'rgba(255,255,255,0.4)',
-        fontSize: '0.75rem',
-        fontFamily: "'Inter', sans-serif",
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-      }}>
-        <span>Scroll</span>
-        <div style={{
-          width: '1px',
-          height: '40px',
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0.4), transparent)',
-        }} />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600">
+        <span className="text-xs uppercase tracking-widest">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-gray-600 to-transparent" />
       </div>
     </section>
   )
 }
-
-export default Hero
