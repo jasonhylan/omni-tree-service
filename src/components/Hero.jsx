@@ -68,7 +68,7 @@ export default function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url('https://raw.githubusercontent.com/jasonhylan/omni-tree-service/refs/heads/main/hero-trees.jpg')`,
+          backgroundImage: `url('/hero-trees.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
