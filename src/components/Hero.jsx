@@ -68,7 +68,7 @@ export default function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url('https://images.unsplash.com/photo-1770215965403-76d1eeb54cb8?w=1920&q=80&auto=format&fit=crop')`,
+          backgroundImage: `url('/hero-trees.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
