@@ -1,182 +1,135 @@
-@import "tailwindcss";
+/* ============================================
+   OMNI TREE SERVICE v2 - Global Styles
+   Warm Authority + Local Service Design System
+   ============================================ */
 
-/* =====================
-   DESIGN TOKENS
-   ===================== */
 :root {
-  --obsidian: #0D0D12;
-  --champagne: #C9A84C;
-  --ivory: #FAF8F5;
-  --slate: #2A2A35;
-  --slate-light: #3A3A48;
-  --font-heading: 'Inter', sans-serif;
-  --font-display: 'Playfair Display', serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Primary Palette */
+  --forest-deep: #1a2e1a;      /* Deep forest green - primary brand */
+  --forest-mid: #2d5a2d;       /* Mid forest green */
+  --forest-light: #4a8c4a;     /* Light forest green */
+  --bark-dark: #3d2b1f;        /* Dark bark brown */
+  --bark-mid: #6b4c3b;         /* Mid bark brown */
+  --bark-light: #a67c6b;       /* Light bark/terracotta */
+  
+  /* Accent & Warm Tones */
+  --amber-warm: #d4821a;       /* Warm amber - CTAs */
+  --amber-light: #f0a830;      /* Light amber */
+  --cream-base: #faf6f0;       /* Warm cream background */
+  --cream-warm: #f5ede0;       /* Warmer cream */
+  --parchment: #ede0cc;        /* Parchment tone */
+  
+  /* Neutrals */
+  --charcoal: #2c2c2c;         /* Primary text */
+  --gray-warm: #6b6560;        /* Secondary text */
+  --gray-light: #c8bfb5;       /* Borders/dividers */
+  --white-warm: #fdfaf6;       /* Warm white */
+  
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  /* Spacing */
+  --section-padding: 5rem 1.5rem;
+  --container-max: 1200px;
+  
+  /* Shadows */
+  --shadow-soft: 0 2px 20px rgba(26, 46, 26, 0.08);
+  --shadow-medium: 0 4px 30px rgba(26, 46, 26, 0.12);
+  --shadow-strong: 0 8px 40px rgba(26, 46, 26, 0.18);
+  
+  /* Transitions */
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* =====================
-   GLOBAL NOISE OVERLAY
-   ===================== */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.035;
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* =====================
-   BASE TYPOGRAPHY
-   ===================== */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cream-base);
+  color: var(--charcoal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Typography Base */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  letter-spacing: -0.03em;
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  color: var(--forest-deep);
 }
 
-.font-display {
-  font-family: var(--font-display);
+p {
+  line-height: 1.7;
 }
 
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-/* =====================
-   SCROLL BAR
-   ===================== */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: var(--obsidian);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--champagne);
-  border-radius: 2px;
-}
-
-/* =====================
-   UTILITY CLASSES
-   ===================== */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  background: var(--champagne);
-  color: var(--obsidian);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
+a {
+  color: inherit;
   text-decoration: none;
 }
 
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.15);
-  transform: translateX(-101%);
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-.btn-primary:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.4);
+/* Utility Classes */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-.btn-primary:hover::before {
-  transform: translateX(0);
-}
-
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  background: transparent;
-  color: var(--ivory);
-  font-family: var(--font-heading);
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  border: 1px solid rgba(250, 248, 245, 0.3);
-  border-radius: 999px;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.2s ease, color 0.2s ease;
-  text-decoration: none;
+  color: var(--amber-warm);
 }
 
-.btn-outline:hover {
-  transform: scale(1.03);
-  border-color: var(--champagne);
-  color: var(--champagne);
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--forest-deep);
+  margin-bottom: 1rem;
 }
 
-/* =====================
-   SECTION SPACING
-   ===================== */
-.section-pad {
-  padding: 7rem 1.5rem;
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  color: var(--gray-warm);
+  max-width: 600px;
+  line-height: 1.7;
 }
 
-@media (min-width: 768px) {
-  .section-pad {
-    padding: 9rem 3rem;
-  }
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-@media (min-width: 1280px) {
-  .section-pad {
-    padding: 10rem 5rem;
-  }
+::-webkit-scrollbar-track {
+  background: var(--cream-base);
 }
 
-/* =====================
-   CARD SYSTEM
-   ===================== */
-.card-luxe {
-  background: var(--ivory);
-  border-radius: 2rem;
-  border: 1px solid rgba(201, 168, 76, 0.1);
-  box-shadow: 0 4px 40px rgba(0,0,0,0.15);
-  overflow: hidden;
+::-webkit-scrollbar-thumb {
+  background: var(--forest-light);
+  border-radius: 3px;
 }
 
-/* =====================
-   ANIMATIONS
-   ===================== */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-@keyframes waveform {
-  0% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -200; }
-}
-
-.animate-pulse-dot {
-  animation: pulse-dot 1.5s ease-in-out infinite;
-}
-
-/* =====================
-   GSAP INITIAL STATES
-   ===================== */
-.gsap-fade-up {
-  opacity: 0;
-  transform: translateY(30px);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forest-mid);
 }
