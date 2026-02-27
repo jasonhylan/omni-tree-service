@@ -68,7 +68,7 @@ export default function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url('/hero-trees.jpg')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1770215965403-76d1eeb54cb8?w=1920&q=80&auto=format&fit=crop')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -120,7 +120,7 @@ export default function Hero() {
             opacity: 0,
           }}
         >
-          Greater St. Louis · Est. 2003 · ISA Certified
+          Greater St. Louis \u00b7 Est. 2003 \u00b7 ISA Certified
         </div>
 
         {/* Hero Headline */}
@@ -171,7 +171,7 @@ export default function Hero() {
             opacity: 0,
           }}
         >
-          Expert tree care for Greater St. Louis — dependable service for over 20 years. 3 certified arborists on staff.
+          Expert tree care for Greater St. Louis \u2014 dependable service for over 20 years. 3 certified arborists on staff.
         </p>
 
         {/* CTAs */}
