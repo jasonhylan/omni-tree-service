@@ -1,90 +1,237 @@
-import { Leaf, Heart, Mountain, Recycle } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const pillars = [
-  {
-    icon: Leaf,
-    title: 'Tree-First Approach',
-    description: 'We only recommend removal when absolutely necessary. Our certified arborists explore every option to preserve and rehabilitate trees before considering removal.',
-    accent: 'text-green-400',
-    bg: 'bg-green-900/20',
-    border: 'border-green-700/20',
-  },
-  {
-    icon: Heart,
-    title: 'Property Respect',
-    description: 'Your property is treated like our own. We use protective ground coverings, careful rigging systems, and meticulous cleanup protocols to leave your yard better than we found it.',
-    accent: 'text-rose-400',
-    bg: 'bg-rose-900/20',
-    border: 'border-rose-700/20',
-  },
-  {
-    icon: Mountain,
-    title: 'Safety Above All',
-    description: 'Every job follows ANSI Z133 safety standards. Our team is fully equipped with professional PPE, and we carry $2M in liability insurance so you\'re fully protected.',
-    accent: 'text-blue-400',
-    bg: 'bg-blue-900/20',
-    border: 'border-blue-700/20',
-  },
-  {
-    icon: Recycle,
-    title: 'Environmental Stewardship',
-    description: 'Wood waste is chipped for mulch, logs are repurposed for firewood, and we partner with local nurseries to replant native species whenever trees are removed.',
-    accent: 'text-teal-400',
-    bg: 'bg-teal-900/20',
-    border: 'border-teal-700/20',
-  },
-]
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Philosophy() {
-  return (
-    <section id="philosophy" className="bg-gray-950 py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Left: Text content */}
-          <div>
-            <div className="inline-flex items-center gap-2 bg-green-900/20 border border-green-700/30 text-green-400 text-xs font-semibold tracking-wider uppercase px-4 py-2 rounded-full mb-6">
-              Our Philosophy
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              We Don't Just
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
-                Cut Trees.
-              </span>
-            </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              Omni Tree Service was built on a simple belief: every tree has value. 
-              Our job is to help you understand that value, care for it properly, 
-              and only act when truly necessary — with precision, care, and respect.
-            </p>
-            <p className="text-gray-500 leading-relaxed">
-              Founded by ISA Certified Arborists with over 15 years of combined experience, 
-              we approach every project as stewards of the urban forest — balancing the needs 
-              of property owners with the long-term health of the trees in our community.
-            </p>
-          </div>
+  const sectionRef = useRef(null)
+  const bgRef = useRef(null)
+  const line1Ref = useRef(null)
+  const line2aRef = useRef(null)
+  const line2bRef = useRef(null)
+  const line2cRef = useRef(null)
+  const badgesRef = useRef(null)
 
-          {/* Right: Pillar cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {pillars.map((pillar, i) => {
-              const Icon = pillar.icon
-              return (
-                <div
-                  key={i}
-                  className={`${pillar.bg} border ${pillar.border} rounded-2xl p-6 hover:scale-105 transition-transform duration-200`}
-                >
-                  <div className={`w-10 h-10 ${pillar.bg} rounded-xl flex items-center justify-center mb-4 border ${pillar.border}`}>
-                    <Icon className={`w-5 h-5 ${pillar.accent}`} />
-                  </div>
-                  <h3 className="text-white font-semibold mb-2">{pillar.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{pillar.description}</p>
-                </div>
-              )
-            })}
-          </div>
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Parallax bg
+      gsap.to(bgRef.current, {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        }
+      })
+
+      // Line 1 reveal
+      gsap.fromTo(line1Ref.current,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 70%',
+          }
+        }
+      )
+
+      // Line 2 parts staggered
+      const parts = [line2aRef.current, line2bRef.current, line2cRef.current]
+      gsap.fromTo(parts,
+        { opacity: 0, y: 45 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.15,
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 70%',
+          }
+        }
+      )
+
+      // Badges
+      gsap.fromTo(badgesRef.current.children,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: badgesRef.current,
+            start: 'top 80%',
+          }
+        }
+      )
+
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section
+      id="philosophy"
+      ref={sectionRef}
+      style={{
+        position: 'relative',
+        background: 'var(--espresso)',
+        padding: '9rem 1.5rem',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background texture image */}
+      <div
+        ref={bgRef}
+        style={{
+          position: 'absolute',
+          inset: '-15%',
+          backgroundImage: `url('https://images.unsplash.com/photo-1588392382834-a891154bca4d?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.08,
+          zIndex: 0,
+        }}
+      />
+
+      {/* Gold horizontal rule */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '60%',
+        height: '2px',
+        background: 'linear-gradient(90deg, transparent, var(--gold), transparent)',
+        opacity: 0.5,
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1000px', margin: '0 auto' }}>
+
+        {/* Eyebrow */}
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.72rem',
+          letterSpacing: '0.2em',
+          color: 'var(--gold)',
+          textTransform: 'uppercase',
+          marginBottom: '2.5rem',
+          opacity: 0.8,
+        }}>
+          Our Philosophy
+        </div>
+
+        {/* Line 1: The hook */}
+        <div
+          ref={line1Ref}
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 700,
+            fontSize: 'clamp(1.25rem, 3vw, 1.8rem)',
+            color: 'rgba(255,255,255,0.85)',
+            letterSpacing: '-0.01em',
+            marginBottom: '1.25rem',
+            opacity: 0,
+          }}
+        >
+          Your trees matter.
+        </div>
+
+        {/* Line 2: The big statement */}
+        <div style={{
+          fontFamily: 'var(--font-serif)',
+          fontStyle: 'italic',
+          fontSize: 'clamp(1.75rem, 5vw, 3.75rem)',
+          lineHeight: 1.2,
+          letterSpacing: '-0.01em',
+          marginBottom: '3.5rem',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0 0.35em',
+          alignItems: 'baseline',
+        }}>
+          <span ref={line2aRef} style={{ color: 'rgba(255,255,255,0.88)', opacity: 0 }}>
+            That's why we show up with
+          </span>
+          <span ref={line2bRef} style={{ color: 'var(--gold)', opacity: 0 }}>
+            certified arborists
+          </span>
+          <span ref={line2cRef} style={{ color: 'rgba(255,255,255,0.88)', opacity: 0 }}>
+            — not day laborers.
+          </span>
+        </div>
+
+        {/* Supporting copy */}
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '1.05rem',
+          color: 'rgba(255,255,255,0.5)',
+          maxWidth: '520px',
+          lineHeight: 1.75,
+          marginBottom: '3rem',
+        }}>
+          Every property is different. That's why every job starts with a certified arborist — not a clipboard estimate. We assess, we plan, we execute. Then we leave your yard cleaner than we found it.
+        </p>
+
+        {/* Trust badges */}
+        <div ref={badgesRef} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+          {[
+            { label: 'ISA Member', icon: '🌳' },
+            { label: 'TCIA Member', icon: '✓' },
+            { label: 'Licensed & Insured', icon: '🛡' },
+            { label: '20+ Years', icon: '★' },
+          ].map((badge, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.6rem 1.1rem',
+                borderRadius: '9999px',
+                border: '1px solid rgba(184,145,58,0.3)',
+                background: 'rgba(184,145,58,0.08)',
+                opacity: 0,
+              }}
+            >
+              <span style={{ fontSize: '0.85rem' }}>{badge.icon}</span>
+              <span style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.7rem',
+                letterSpacing: '0.1em',
+                color: 'rgba(255,255,255,0.7)',
+                textTransform: 'uppercase',
+              }}>
+                {badge.label}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Bottom gold rule */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '60%',
+        height: '2px',
+        background: 'linear-gradient(90deg, transparent, var(--gold), transparent)',
+        opacity: 0.5,
+      }} />
     </section>
   )
 }
