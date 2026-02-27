@@ -4,494 +4,461 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Card 1: Before/After Slider
-function BeforeAfterCard() {
-  const [sliderPos, setSliderPos] = useState(65)
-  const isDragging = useRef(false)
-  const containerRef = useRef(null)
-  const animRef = useRef(null)
+// Card 1: 20+ Years of Experience — Animated counter + timeline milestones
+function ExperienceCard() {
+  const [count, setCount] = useState(0)
+  const cardRef = useRef(null)
+  const hasAnimated = useRef(false)
 
   useEffect(() => {
-    // Auto animate from 70/30 to 30/70 loop
-    let pos = 65
-    let dir = -1
-    animRef.current = setInterval(() => {
-      pos += dir * 0.4
-      if (pos <= 30) dir = 1
-      if (pos >= 70) dir = -1
-      setSliderPos(pos)
-    }, 30)
-    return () => clearInterval(animRef.current)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true
+          let start = 0
+          const end = 20
+          const duration = 2000
+          const stepTime = duration / end
+          const timer = setInterval(() => {
+            start++
+            setCount(start)
+            if (start >= end) clearInterval(timer)
+          }, stepTime)
+        }
+      },
+      { threshold: 0.3 }
+    )
+    if (cardRef.current) observer.observe(cardRef.current)
+    return () => observer.disconnect()
   }, [])
 
-  const handleMouseDown = (e) => {
-    isDragging.current = true
-    clearInterval(animRef.current)
-  }
-
-  const handleMouseMove = (e) => {
-    if (!isDragging.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width * 100
-    setSliderPos(Math.max(15, Math.min(85, x)))
-  }
-
-  const handleMouseUp = () => { isDragging.current = false }
+  const milestones = [
+    { year: '2003', label: 'Founded in Ellisville' },
+    { year: '2008', label: 'ISA Certification' },
+    { year: '2015', label: '3 Certified Arborists' },
+    { year: '2025', label: '20+ Years Strong' },
+  ]
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.5rem' }}>
+    <div ref={cardRef} style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.25rem' }}>
       {/* Header */}
       <div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>01 — EXPERTISE</div>
-        <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.35rem', color: 'var(--navy)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>20+ Years of Expertise</h3>
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.88rem', color: '#6B6460', lineHeight: 1.6, marginTop: '0.5rem' }}>Two decades of trusted tree care across Greater St. Louis.</p>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          01 — EXPERIENCE
+        </div>
+        <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.35rem', color: 'var(--navy)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+          Two Decades of Trust
+        </h3>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.88rem', color: '#6B6460', lineHeight: 1.6, marginTop: '0.5rem' }}>
+          Serving Greater St. Louis families since 2003.
+        </p>
       </div>
 
-      {/* Slider */}
-      <div
-        ref={containerRef}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        style={{
-          position: 'relative',
-          flex: 1,
-          minHeight: '180px',
-          borderRadius: '1.25rem',
-          overflow: 'hidden',
-          cursor: 'ew-resize',
-          userSelect: 'none',
-          border: '1px solid rgba(184,145,58,0.15)',
-        }}
-      >
-        {/* "After" side (right, full width) */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          paddingRight: '1.25rem',
+      {/* Large counter */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: '0.35rem',
+        padding: '1.25rem 0 0.75rem',
+      }}>
+        <span style={{
+          fontFamily: 'var(--font-sans)',
+          fontWeight: 800,
+          fontSize: '4.5rem',
+          lineHeight: 1,
+          color: 'var(--navy)',
+          letterSpacing: '-0.04em',
         }}>
-          {/* Tree illustration - After */}
-          <svg width="100" height="140" viewBox="0 0 100 140" style={{ position: 'absolute', right: '10%', bottom: 0, opacity: 0.7 }}>
-            <rect x="44" y="90" width="12" height="50" fill="#795548" />
-            <ellipse cx="50" cy="60" rx="38" ry="42" fill="#4CAF50" />
-            <ellipse cx="50" cy="55" rx="28" ry="32" fill="#66BB6A" />
-            <ellipse cx="50" cy="48" rx="18" ry="22" fill="#81C784" />
-          </svg>
-          <div style={{
-            position: 'absolute',
-            bottom: '0.75rem',
-            right: '0.75rem',
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 700,
-            fontSize: '0.7rem',
-            letterSpacing: '0.1em',
-            color: '#2E7D32',
-            background: 'rgba(255,255,255,0.85)',
-            padding: '0.3rem 0.7rem',
-            borderRadius: '999px',
-            textTransform: 'uppercase',
-          }}>
-            After
-          </div>
-        </div>
-
-        {/* "Before" side (left, clipped) */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
-          background: 'linear-gradient(135deg, #efebe9 0%, #d7ccc8 50%, #bcaaa4 100%)',
-          display: 'flex',
-          alignItems: 'flex-end',
+          {count}+
+        </span>
+        <span style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.7rem',
+          color: 'var(--gold)',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
         }}>
-          {/* Overgrown tree - Before */}
-          <svg width="100" height="140" viewBox="0 0 100 140" style={{ position: 'absolute', left: '10%', bottom: 0, opacity: 0.65 }}>
-            <rect x="44" y="95" width="12" height="45" fill="#5D4037" />
-            {/* Scraggly branches */}
-            <line x1="50" y1="80" x2="20" y2="50" stroke="#5D4037" strokeWidth="4" />
-            <line x1="50" y1="70" x2="78" y2="42" stroke="#5D4037" strokeWidth="3.5" />
-            <line x1="35" y1="60" x2="12" y2="38" stroke="#5D4037" strokeWidth="2.5" />
-            <line x1="65" y1="55" x2="88" y2="30" stroke="#5D4037" strokeWidth="2.5" />
-            <ellipse cx="25" cy="45" rx="16" ry="14" fill="#8D6E63" opacity="0.7" />
-            <ellipse cx="76" cy="38" rx="15" ry="13" fill="#795548" opacity="0.7" />
-            <ellipse cx="50" cy="60" rx="30" ry="28" fill="#9E9E9E" opacity="0.55" />
-          </svg>
-          <div style={{
-            position: 'absolute',
-            bottom: '0.75rem',
-            left: '0.75rem',
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 700,
-            fontSize: '0.7rem',
-            letterSpacing: '0.1em',
-            color: '#4E342E',
-            background: 'rgba(255,255,255,0.85)',
-            padding: '0.3rem 0.7rem',
-            borderRadius: '999px',
-            textTransform: 'uppercase',
-          }}>
-            Before
-          </div>
-        </div>
-
-        {/* Divider Line */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: `${sliderPos}%`,
-          width: '2px',
-          background: 'white',
-          boxShadow: '0 0 12px rgba(255,255,255,0.8)',
-          zIndex: 3,
-          transform: 'translateX(-50%)',
-        }}>
-          {/* Handle */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: 'white',
-            boxShadow: '0 2px 16px rgba(0,0,0,0.25)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
-              <path d="M1 5H15M5 1L1 5L5 9M11 1L15 5L11 9" stroke="#B8913A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-        </div>
+          Years
+        </span>
       </div>
 
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#9E9E9E', letterSpacing: '0.08em' }}>DRAG TO COMPARE · EST. 2003</p>
+      {/* Timeline milestones */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0' }}>
+        {milestones.map((m, i) => (
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              padding: '0.55rem 0',
+              borderTop: i === 0 ? '1px solid rgba(27,42,74,0.08)' : 'none',
+              borderBottom: '1px solid rgba(27,42,74,0.08)',
+            }}
+          >
+            <span style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
+              color: 'var(--gold)',
+              fontWeight: 600,
+              minWidth: '36px',
+              letterSpacing: '0.02em',
+            }}>
+              {m.year}
+            </span>
+            <div style={{
+              width: '5px',
+              height: '5px',
+              borderRadius: '50%',
+              background: i === milestones.length - 1 ? 'var(--gold)' : 'rgba(27,42,74,0.2)',
+              flexShrink: 0,
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.82rem',
+              color: i === milestones.length - 1 ? 'var(--navy)' : '#6B6460',
+              fontWeight: i === milestones.length - 1 ? 600 : 400,
+            }}>
+              {m.label}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#9E9E9E', letterSpacing: '0.08em' }}>
+        EST. 2003 · ELLISVILLE, MO
+      </p>
     </div>
   )
 }
 
-// Card 2: Service Area Map
-function ServiceAreaCard() {
-  const svgRef = useRef(null)
-  const dotsRef = useRef([])
 
-  const locations = [
-    { name: 'Ellisville', x: 42, y: 58 },
-    { name: 'Wildwood', x: 22, y: 45 },
-    { name: 'Chesterfield', x: 55, y: 38 },
-    { name: 'Ballwin', x: 38, y: 68 },
-    { name: 'Creve Coeur', x: 68, y: 30 },
-    { name: 'Clayton', x: 80, y: 50 },
-  ]
+// Card 2: ISA Certified Arborists — Credential-focused with what it means
+function CertifiedCard() {
+  const shieldRef = useRef(null)
+  const checkRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      dotsRef.current.forEach((dotGroup, i) => {
-        if (!dotGroup) return
-        const dot = dotGroup.querySelector('.dot-core')
-        const ring = dotGroup.querySelector('.dot-ring')
-
-        gsap.fromTo(dot,
-          { scale: 0, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 0.5,
-            delay: i * 0.18,
-            ease: 'back.out(1.7)',
-            scrollTrigger: {
-              trigger: svgRef.current,
-              start: 'top 80%',
-            }
+      gsap.fromTo(shieldRef.current,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: shieldRef.current,
+            start: 'top 80%',
           }
-        )
+        }
+      )
+      gsap.fromTo(checkRef.current,
+        { strokeDashoffset: 30, strokeDasharray: 30 },
+        {
+          strokeDashoffset: 0,
+          duration: 0.6,
+          delay: 0.5,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: shieldRef.current,
+            start: 'top 80%',
+          }
+        }
+      )
+    })
+    return () => ctx.revert()
+  }, [])
 
-        gsap.fromTo(ring,
-          { scale: 0, opacity: 0.6 },
+  const credentials = [
+    'Tree risk assessment qualified',
+    'Science-based pruning methods',
+    'Species-specific treatment plans',
+  ]
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.25rem' }}>
+      {/* Header */}
+      <div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          02 — CERTIFIED
+        </div>
+        <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.35rem', color: 'var(--navy)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+          ISA Certified Arborists
+        </h3>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.88rem', color: '#6B6460', lineHeight: 1.6, marginTop: '0.5rem' }}>
+          3 certified professionals on staff year-round.
+        </p>
+      </div>
+
+      {/* Shield badge */}
+      <div
+        ref={shieldRef}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1.5rem',
+          opacity: 0,
+        }}
+      >
+        <div style={{
+          width: '100px',
+          height: '110px',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none">
+            {/* Shield shape */}
+            <path
+              d="M50 6L12 22V50C12 76 28 96 50 104C72 96 88 76 88 50V22L50 6Z"
+              fill="rgba(27,42,74,0.05)"
+              stroke="var(--navy)"
+              strokeWidth="2.5"
+            />
+            {/* Inner shield */}
+            <path
+              d="M50 16L22 28V50C22 70 34 86 50 92C66 86 78 70 78 50V28L50 16Z"
+              fill="rgba(184,145,58,0.08)"
+              stroke="var(--gold)"
+              strokeWidth="1.5"
+              strokeDasharray="4 3"
+            />
+            {/* ISA text */}
+            <text x="50" y="48" textAnchor="middle" style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', fontWeight: 800, fill: 'var(--navy)', letterSpacing: '0.1em' }}>ISA</text>
+            {/* Checkmark */}
+            <path
+              ref={checkRef}
+              d="M36 60L46 70L66 48"
+              stroke="var(--gold)"
+              strokeWidth="3.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+            {/* CERTIFIED text */}
+            <text x="50" y="84" textAnchor="middle" style={{ fontFamily: 'var(--font-mono)', fontSize: '7px', fill: 'var(--gold)', letterSpacing: '0.2em' }}>CERTIFIED</text>
+          </svg>
+        </div>
+      </div>
+
+      {/* What it means */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.65rem',
+          color: '#9E9E9E',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          marginBottom: '0.25rem',
+        }}>
+          What this means for you
+        </div>
+        {credentials.map((item, i) => (
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '0.6rem',
+              padding: '0.4rem 0',
+            }}
+          >
+            <div style={{
+              width: '18px',
+              height: '18px',
+              borderRadius: '50%',
+              background: 'rgba(184,145,58,0.12)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              marginTop: '1px',
+            }}>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 5L4 7L8 3" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.84rem',
+              color: '#6B6460',
+              lineHeight: 1.5,
+            }}>
+              {item}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#9E9E9E', letterSpacing: '0.08em' }}>
+        INTERNATIONAL SOCIETY OF ARBORICULTURE
+      </p>
+    </div>
+  )
+}
+
+
+// Card 3: Complete Property Care — Service promise with visual checklist
+function CleanupCard() {
+  const stepsRef = useRef([])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      stepsRef.current.forEach((step, i) => {
+        if (!step) return
+        gsap.fromTo(step,
+          { opacity: 0, x: -20 },
           {
-            scale: 3.5,
-            opacity: 0,
-            duration: 1.8,
-            delay: i * 0.18 + 0.4,
+            opacity: 1,
+            x: 0,
+            duration: 0.5,
+            delay: i * 0.2,
             ease: 'power2.out',
-            repeat: -1,
-            repeatDelay: 1.5,
             scrollTrigger: {
-              trigger: svgRef.current,
-              start: 'top 80%',
+              trigger: step,
+              start: 'top 85%',
             }
           }
         )
       })
-    }, svgRef)
-
+    })
     return () => ctx.revert()
   }, [])
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.5rem' }}>
-      {/* Header */}
-      <div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>02 — COVERAGE</div>
-        <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.35rem', color: 'var(--navy)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>3 Certified Arborists</h3>
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.88rem', color: '#6B6460', lineHeight: 1.6, marginTop: '0.5rem' }}>ISA-certified professionals on staff year-round.</p>
-      </div>
-
-      {/* Map */}
-      <div style={{ flex: 1, position: 'relative', minHeight: '180px' }}>
-        <svg
-          ref={svgRef}
-          viewBox="0 0 120 100"
-          style={{ width: '100%', height: '100%', maxHeight: '200px' }}
-          preserveAspectRatio="xMidYMid meet"
-        >
-          {/* Region blob */}
-          <path
-            d="M15,25 Q8,35 12,55 Q16,72 25,80 Q38,90 55,88 Q72,86 85,78 Q98,68 102,52 Q106,36 98,22 Q90,8 73,6 Q56,4 38,8 Q22,12 15,25 Z"
-            fill="rgba(27,42,74,0.06)"
-            stroke="rgba(27,42,74,0.18)"
-            strokeWidth="0.8"
-          />
-
-          {/* Dots */}
-          {locations.map((loc, i) => (
-            <g
-              key={loc.name}
-              ref={el => dotsRef.current[i] = el}
-              transform={`translate(${loc.x}, ${loc.y})`}
-            >
-              <circle className="dot-ring" r="4" fill="none" stroke="var(--gold)" strokeWidth="1.5" style={{ transformOrigin: 'center' }} />
-              <circle className="dot-core" r="3.5" fill="var(--gold)" style={{ transformOrigin: 'center' }} />
-              <text x="6" y="1" style={{ fontSize: '5.5px', fontFamily: 'var(--font-sans)', fill: 'var(--navy)', fontWeight: 600 }}>{loc.name}</text>
-            </g>
-          ))}
+  const services = [
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <circle cx="11" cy="11" r="9" stroke="var(--gold)" strokeWidth="1.5"/>
+          <path d="M11 6V11L14 14" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
-      </div>
-
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#9E9E9E', letterSpacing: '0.08em' }}>SERVING GREATER ST. LOUIS &amp; SURROUNDING AREAS</p>
-    </div>
-  )
-}
-
-// Card 3: Availability Checker
-function AvailabilityCard() {
-  const cursorRef = useRef(null)
-  const animatingRef = useRef(false)
-  const [selectedDay, setSelectedDay] = useState(null)
-  const [clickedCTA, setClickedCTA] = useState(false)
-
-  const days = [
-    { label: 'M', available: true },
-    { label: 'T', available: false },
-    { label: 'W', available: true },
-    { label: 'T', available: false },
-    { label: 'F', available: true },
-    { label: 'S', available: true },
+      ),
+      title: 'Same-day estimates',
+      desc: 'Call by noon, we assess by evening.',
+    },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M3 11C3 6.6 6.6 3 11 3C15.4 3 19 6.6 19 11" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M19 11C19 15.4 15.4 19 11 19C6.6 19 3 15.4 3 11" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 3"/>
+          <path d="M8 11L10 13L14 9" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      title: 'Full debris removal',
+      desc: 'We haul everything. No exceptions.',
+    },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M4 18L8 14L12 16L18 4" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="18" cy="4" r="2" fill="var(--gold)"/>
+        </svg>
+      ),
+      title: 'Property left pristine',
+      desc: 'Your yard, better than we found it.',
+    },
   ]
 
-  const dayRefs = useRef([])
-  const btnRef = useRef(null)
-
-  useEffect(() => {
-    let timeout1, timeout2, timeout3, timeout4, timeout5
-
-    const runAnimation = () => {
-      setSelectedDay(null)
-      setClickedCTA(false)
-
-      // Move cursor to Wednesday (index 2)
-      timeout1 = setTimeout(() => {
-        const dayEl = dayRefs.current[2]
-        if (dayEl && cursorRef.current) {
-          const rect = dayEl.getBoundingClientRect()
-          const containerRect = dayEl.closest('[data-avail-container]')?.getBoundingClientRect()
-          if (containerRect) {
-            const x = rect.left - containerRect.left + rect.width / 2
-            const y = rect.top - containerRect.top + rect.height / 2
-            gsap.to(cursorRef.current, {
-              x: x - 8,
-              y: y - 8,
-              duration: 0.8,
-              ease: 'power2.inOut',
-            })
-          }
-        }
-      }, 800)
-
-      // Click day
-      timeout2 = setTimeout(() => {
-        setSelectedDay(2)
-        if (cursorRef.current) {
-          gsap.to(cursorRef.current, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 })
-        }
-      }, 1800)
-
-      // Move cursor to button
-      timeout3 = setTimeout(() => {
-        const btnEl = btnRef.current
-        if (btnEl && cursorRef.current) {
-          const rect = btnEl.getBoundingClientRect()
-          const containerRect = btnEl.closest('[data-avail-container]')?.getBoundingClientRect()
-          if (containerRect) {
-            const x = rect.left - containerRect.left + rect.width / 2
-            const y = rect.top - containerRect.top + rect.height / 2
-            gsap.to(cursorRef.current, {
-              x: x - 8,
-              y: y - 8,
-              duration: 0.9,
-              ease: 'power2.inOut',
-            })
-          }
-        }
-      }, 2800)
-
-      // Click CTA
-      timeout4 = setTimeout(() => {
-        setClickedCTA(true)
-        if (cursorRef.current) {
-          gsap.to(cursorRef.current, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 })
-        }
-      }, 3900)
-
-      // Reset
-      timeout5 = setTimeout(() => {
-        setSelectedDay(null)
-        setClickedCTA(false)
-        if (cursorRef.current) {
-          gsap.set(cursorRef.current, { x: -20, y: -20 })
-        }
-        runAnimation()
-      }, 5500)
-    }
-
-    const startTimeout = setTimeout(runAnimation, 500)
-
-    return () => {
-      clearTimeout(startTimeout)
-      clearTimeout(timeout1)
-      clearTimeout(timeout2)
-      clearTimeout(timeout3)
-      clearTimeout(timeout4)
-      clearTimeout(timeout5)
-    }
-  }, [])
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.25rem' }}>
       {/* Header */}
       <div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>03 — AVAILABILITY</div>
-        <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.35rem', color: 'var(--navy)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>Complete Property Care</h3>
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.88rem', color: '#6B6460', lineHeight: 1.6, marginTop: '0.5rem' }}>Thorough cleanup after every service — your yard left pristine.</p>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          03 — SERVICE PROMISE
+        </div>
+        <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1.35rem', color: 'var(--navy)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+          Complete Property Care
+        </h3>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.88rem', color: '#6B6460', lineHeight: 1.6, marginTop: '0.5rem' }}>
+          Thorough cleanup after every service, guaranteed.
+        </p>
       </div>
 
-      {/* Checker UI */}
-      <div data-avail-container="true" style={{ flex: 1, position: 'relative', minHeight: '160px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {/* Animated cursor */}
-        <div
-          ref={cursorRef}
-          style={{
-            position: 'absolute',
-            width: '16px',
-            height: '16px',
-            zIndex: 10,
-            pointerEvents: 'none',
-            transform: 'translate(-20px, -20px)',
-          }}
-        >
-          <svg viewBox="0 0 16 16" fill="none">
-            <path d="M1 1L14 6L8 8L6 14L1 1Z" fill="var(--navy)" stroke="white" strokeWidth="1" />
-          </svg>
-        </div>
-
-        {/* Week label */}
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#9E9E9E', letterSpacing: '0.1em' }}>NEXT WEEK — CHECK AVAILABILITY</div>
-
-        {/* Day grid */}
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {days.map((day, i) => (
-            <div
-              key={i}
-              ref={el => dayRefs.current[i] = el}
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.35rem',
-                padding: '0.6rem 0.3rem',
-                borderRadius: '0.75rem',
-                border: `2px solid ${selectedDay === i ? 'var(--gold)' : day.available ? 'rgba(76,175,80,0.25)' : 'rgba(0,0,0,0.08)'}`,
-                background: selectedDay === i ? 'rgba(184,145,58,0.12)' : day.available ? 'rgba(76,175,80,0.06)' : 'rgba(0,0,0,0.03)',
-                transition: 'all 0.25s ease',
-                cursor: day.available ? 'pointer' : 'default',
-              }}
-            >
-              <span style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 600,
-                color: selectedDay === i ? 'var(--gold)' : day.available ? 'var(--navy)' : '#BDBDBD',
-                letterSpacing: '0.05em',
-              }}>
-                {day.label}
-              </span>
-              <div style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: selectedDay === i ? 'var(--gold)' : day.available ? '#4CAF50' : '#E0E0E0',
-                transition: 'background 0.25s ease',
-              }} />
-              <span style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.6rem',
-                color: day.available ? '#4CAF50' : '#BDBDBD',
-                fontWeight: 600,
-              }}>
-                {day.available ? 'OPEN' : 'FULL'}
-              </span>
+      {/* Service items */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        {services.map((svc, i) => (
+          <div
+            key={i}
+            ref={el => stepsRef.current[i] = el}
+            style={{
+              display: 'flex',
+              gap: '0.85rem',
+              padding: '0.85rem',
+              borderRadius: '1rem',
+              background: 'rgba(27,42,74,0.03)',
+              border: '1px solid rgba(27,42,74,0.06)',
+              alignItems: 'flex-start',
+              opacity: 0,
+            }}
+          >
+            <div style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '0.75rem',
+              background: 'rgba(184,145,58,0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              {svc.icon}
             </div>
-          ))}
-        </div>
+            <div>
+              <div style={{
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 600,
+                fontSize: '0.88rem',
+                color: 'var(--navy)',
+                lineHeight: 1.3,
+                marginBottom: '0.2rem',
+              }}>
+                {svc.title}
+              </div>
+              <div style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.8rem',
+                color: '#6B6460',
+                lineHeight: 1.5,
+              }}>
+                {svc.desc}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
-        {/* CTA button */}
-        <button
-          ref={btnRef}
-          style={{
-            padding: '0.75rem 1.25rem',
-            borderRadius: '9999px',
-            border: 'none',
-            background: clickedCTA ? 'var(--navy)' : 'var(--gold)',
-            color: 'white',
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 700,
-            fontSize: '0.85rem',
-            letterSpacing: '0.02em',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            width: '100%',
-          }}
-        >
-          {clickedCTA ? '✓ Request Sent!' : 'Get Your Free Estimate'}
-        </button>
-
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#4CAF50', letterSpacing: '0.08em' }}>● AVAILABLE</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#BDBDBD', letterSpacing: '0.08em' }}>● BOOKED</span>
-        </div>
+      {/* Service area note */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        padding: '0.65rem 0.85rem',
+        borderRadius: '9999px',
+        background: 'rgba(184,145,58,0.08)',
+        border: '1px solid rgba(184,145,58,0.15)',
+        alignSelf: 'flex-start',
+      }}>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1C4.24 1 2 3.24 2 6C2 9.5 7 13 7 13C7 13 12 9.5 12 6C12 3.24 9.76 1 7 1Z" stroke="var(--gold)" strokeWidth="1.2" fill="rgba(184,145,58,0.15)"/>
+          <circle cx="7" cy="6" r="1.5" fill="var(--gold)"/>
+        </svg>
+        <span style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.65rem',
+          color: 'var(--gold)',
+          letterSpacing: '0.08em',
+          fontWeight: 500,
+        }}>
+          SERVING GREATER ST. LOUIS & SURROUNDING AREAS
+        </span>
       </div>
     </div>
   )
 }
+
 
 // Main Features section
 export default function Features() {
@@ -535,7 +502,7 @@ export default function Features() {
         {/* Section header */}
         <div style={{ marginBottom: '3.5rem', maxWidth: '500px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.2em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-            PROOF OF WORK
+            WHY OMNI
           </div>
           <h2 style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: 'var(--navy)', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
             Why homeowners trust Omni
@@ -552,7 +519,7 @@ export default function Features() {
           gap: '1.5rem',
           alignItems: 'stretch',
         }}>
-          {[BeforeAfterCard, ServiceAreaCard, AvailabilityCard].map((CardComponent, i) => (
+          {[ExperienceCard, CertifiedCard, CleanupCard].map((CardComponent, i) => (
             <div
               key={i}
               ref={el => cardsRef.current[i] = el}
