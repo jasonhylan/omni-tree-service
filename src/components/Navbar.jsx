@@ -1,106 +1,216 @@
-import { useState, useEffect } from 'react'
-import { TreePine, Phone, Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Phone, Menu, X } from 'lucide-react'
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const navRef = useRef(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const heroEl = document.getElementById('hero')
+    if (!heroEl) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setScrolled(!entry.isIntersecting)
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(heroEl)
+    return () => observer.disconnect()
   }, [])
 
   const navLinks = [
     { label: 'Services', href: '#services' },
-    { label: 'Our Philosophy', href: '#philosophy' },
-    { label: 'Our Protocol', href: '#protocol' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'About', href: '#philosophy' },
+    { label: 'Areas We Serve', href: '#features' },
+    { label: 'Contact', href: '#cta' },
   ]
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled
-        ? 'bg-black/90 backdrop-blur-md border-b border-white/10 py-3'
-        : 'bg-transparent py-5'
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+    <nav
+      ref={navRef}
+      style={{
+        position: 'fixed',
+        top: '1.25rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 1000,
+        width: 'calc(100% - 2rem)',
+        maxWidth: '1000px',
+        transition: 'all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        borderRadius: '9999px',
+        padding: scrolled ? '0.6rem 1.5rem' : '0.9rem 2rem',
+        background: scrolled ? 'rgba(250, 247, 242, 0.85)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+        border: scrolled ? '1px solid rgba(184, 145, 58, 0.2)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 8px 32px rgba(27, 42, 74, 0.12)' : 'none',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-gradient-to-br from-green-700 to-green-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-green-500/30 transition-all duration-300">
-            <TreePine className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <span className="text-white font-bold text-lg leading-none block">Omni Tree</span>
-            <span className="text-green-400 text-xs font-medium tracking-wider uppercase">Service</span>
-          </div>
+        <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <span style={{
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 700,
+            fontSize: '0.72rem',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: scrolled ? 'var(--navy)' : 'rgba(255,255,255,0.9)',
+            transition: 'color 0.4s ease',
+          }}>
+            OMNI TREE SERVICE
+          </span>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 400,
+            fontSize: '0.55rem',
+            letterSpacing: '0.08em',
+            color: scrolled ? 'var(--gold)' : 'rgba(184,145,58,0.85)',
+            transition: 'color 0.4s ease',
+            opacity: 0.8,
+          }}>
+            EST. 2003
+          </span>
         </a>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map(link => (
+        {/* Desktop Nav Links */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="hide-mobile">
+          {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-200 relative group"
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 500,
+                fontSize: '0.88rem',
+                letterSpacing: '0.02em',
+                textDecoration: 'none',
+                color: scrolled ? 'var(--espresso)' : 'rgba(255,255,255,0.85)',
+                transition: 'color 0.3s ease, transform 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.color = scrolled ? 'var(--navy)' : 'white' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.color = scrolled ? 'var(--espresso)' : 'rgba(255,255,255,0.85)' }}
             >
               {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-400 group-hover:w-full transition-all duration-300" />
             </a>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-4">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <a
-            href="tel:+15125550123"
-            className="flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
+            href="tel:6363919944"
+            className="hide-mobile"
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 600,
+              fontSize: '0.82rem',
+              textDecoration: 'none',
+              color: scrolled ? 'var(--gold)' : 'rgba(184,145,58,0.95)',
+              letterSpacing: '0.02em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            <Phone className="w-4 h-4" />
-            (512) 555-0123
+            <Phone size={13} />
+            636-391-9944
           </a>
+
           <a
-            href="#contact"
-            className="bg-green-700 hover:bg-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-green-700/30"
+            href="#cta"
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 600,
+              fontSize: '0.82rem',
+              textDecoration: 'none',
+              padding: '0.55rem 1.2rem',
+              borderRadius: '9999px',
+              background: 'var(--gold)',
+              color: 'white',
+              letterSpacing: '0.02em',
+              transition: 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(184,145,58,0.4)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none' }}
           >
             Free Estimate
           </a>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+          {/* Mobile menu button */}
+          <button
+            className="show-mobile"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: scrolled ? 'var(--navy)' : 'white',
+              display: 'none',
+              alignItems: 'center',
+            }}
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-6 py-4">
-          <div className="flex flex-col gap-4">
-            {navLinks.map(link => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-gray-300 hover:text-white text-sm font-medium py-2 border-b border-white/5 transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+      {mobileOpen && (
+        <div style={{
+          marginTop: '1rem',
+          borderTop: '1px solid rgba(0,0,0,0.08)',
+          paddingTop: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.75rem',
+        }}>
+          {navLinks.map((link) => (
             <a
-              href="#contact"
-              className="bg-green-700 hover:bg-green-600 text-white px-5 py-3 rounded-lg text-sm font-semibold text-center transition-colors mt-2"
+              key={link.label}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 500,
+                fontSize: '1rem',
+                textDecoration: 'none',
+                color: scrolled ? 'var(--espresso)' : 'rgba(255,255,255,0.9)',
+                padding: '0.25rem 0',
+              }}
             >
-              Free Estimate
+              {link.label}
             </a>
-          </div>
+          ))}
+          <a
+            href="tel:6363919944"
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 700,
+              fontSize: '1.1rem',
+              color: 'var(--gold)',
+              textDecoration: 'none',
+            }}
+          >
+            📞 636-391-9944
+          </a>
         </div>
       )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .hide-mobile { display: none !important; }
+          .show-mobile { display: flex !important; }
+        }
+        @media (min-width: 769px) {
+          .show-mobile { display: none !important; }
+        }
+      `}</style>
     </nav>
   )
 }

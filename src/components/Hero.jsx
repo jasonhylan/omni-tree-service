@@ -1,86 +1,265 @@
-import { ArrowRight, Shield, Clock, Star } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { Phone, ChevronDown } from 'lucide-react'
 
 export default function Hero() {
+  const containerRef = useRef(null)
+  const headlineTopRef = useRef(null)
+  const headlineBigRef = useRef(null)
+  const subRef = useRef(null)
+  const ctasRef = useRef(null)
+  const statsRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.3 })
+
+      tl.fromTo(headlineTopRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
+      )
+      .fromTo(headlineBigRef.current,
+        { opacity: 0, y: 55, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out' },
+        '-=0.5'
+      )
+      .fromTo(subRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+        '-=0.6'
+      )
+      .fromTo(ctasRef.current,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+        '-=0.4'
+      )
+      .fromTo(statsRef.current.children,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.12 },
+        '-=0.3'
+      )
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  const stats = [
+    { value: '20+', label: 'Years Experience' },
+    { value: '3', label: 'ISA Certified Arborists' },
+    { value: '100%', label: 'Satisfaction Guarantee' },
+  ]
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-950 to-black" />
-      
-      {/* Subtle green glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-900/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-green-800/15 rounded-full blur-3xl" />
-      
-      {/* Grid overlay */}
+    <section
+      id="hero"
+      ref={containerRef}
+      style={{
+        position: 'relative',
+        height: '100dvh',
+        minHeight: '700px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background Image */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1920&q=80')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: 0,
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-green-900/30 border border-green-700/40 text-green-400 text-xs font-semibold tracking-wider uppercase px-4 py-2 rounded-full mb-8">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          Austin, TX — Licensed & Insured
+      {/* Gradient Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(27,42,74,0.97) 0%, rgba(27,42,74,0.75) 40%, rgba(27,42,74,0.2) 75%, rgba(0,0,0,0.1) 100%)',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Warm gold accent edge */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '3px',
+        background: 'linear-gradient(90deg, transparent, var(--gold), transparent)',
+        zIndex: 2,
+      }} />
+
+      {/* Content */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          padding: '0 1.5rem 4rem',
+          maxWidth: '1200px',
+          width: '100%',
+        }}
+      >
+        {/* Eyebrow */}
+        <div
+          ref={headlineTopRef}
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.2em',
+            color: 'var(--gold)',
+            textTransform: 'uppercase',
+            marginBottom: '1.25rem',
+            opacity: 0,
+          }}
+        >
+          Greater St. Louis · Est. 2003 · ISA Certified
         </div>
 
-        {/* Headline */}
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-          Expert Tree Care
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
-            Done Right.
-          </span>
-        </h1>
+        {/* Hero Headline */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h1
+            ref={headlineTopRef}
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 700,
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              color: 'rgba(255,255,255,0.92)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.02em',
+              marginBottom: '0.2rem',
+              opacity: 0,
+            }}
+          >
+            Protection built on
+          </h1>
+          <div
+            ref={headlineBigRef}
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              fontWeight: 500,
+              fontSize: 'clamp(4rem, 12vw, 10rem)',
+              color: 'white',
+              lineHeight: 0.9,
+              letterSpacing: '-0.03em',
+              opacity: 0,
+            }}
+          >
+            Trust.
+          </div>
+        </div>
 
-        {/* Subheading */}
-        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-          Omni Tree Service delivers professional tree removal, trimming, and emergency care 
-          with precision, safety, and respect for your property.
+        {/* Subtext */}
+        <p
+          ref={subRef}
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 400,
+            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+            color: 'rgba(255,255,255,0.75)',
+            maxWidth: '520px',
+            lineHeight: 1.65,
+            marginBottom: '2.5rem',
+            opacity: 0,
+          }}
+        >
+          Expert tree care for Greater St. Louis — dependable service for over 20 years. 3 certified arborists on staff.
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <div
+          ref={ctasRef}
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '4rem', opacity: 0 }}
+        >
           <a
-            href="#contact"
-            className="group flex items-center gap-3 bg-green-700 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:shadow-xl hover:shadow-green-700/30 hover:-translate-y-0.5"
+            href="#cta"
+            className="btn-primary"
+            style={{
+              background: 'var(--gold)',
+              color: 'white',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(184,145,58,0.5)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none' }}
           >
-            Get Free Estimate
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            Get Your Free Estimate
           </a>
           <a
-            href="tel:+15125550123"
-            className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200"
+            href="tel:6363919944"
+            className="btn-outline"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
           >
-            Call (512) 555-0123
+            <Phone size={16} />
+            636-391-9944
           </a>
         </div>
 
-        {/* Trust indicators */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-400">
-          <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-green-400" />
-            <span>Fully Insured</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-green-400" />
-            <span>500+ Jobs Completed</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-green-400" />
-            <span>24/7 Emergency Service</span>
-          </div>
+        {/* Stats Bar */}
+        <div
+          ref={statsRef}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.5rem 2.5rem',
+            borderTop: '1px solid rgba(255,255,255,0.12)',
+            paddingTop: '2rem',
+          }}
+        >
+          {stats.map((stat, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem', opacity: 0 }}>
+              <span style={{
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 700,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                color: 'var(--gold)',
+                lineHeight: 1,
+              }}>
+                {stat.value}
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 400,
+                fontSize: '0.82rem',
+                color: 'rgba(255,255,255,0.6)',
+                letterSpacing: '0.02em',
+              }}>
+                {stat.label}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600">
-        <span className="text-xs uppercase tracking-widest">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-gray-600 to-transparent" />
+      <div style={{
+        position: 'absolute',
+        bottom: '1.5rem',
+        right: '2rem',
+        zIndex: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '0.25rem',
+        opacity: 0.5,
+        animation: 'bounce 2s ease-in-out infinite',
+      }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'white', letterSpacing: '0.1em' }}>SCROLL</span>
+        <ChevronDown size={16} color="white" />
       </div>
+
+      <style>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(6px); }
+        }
+      `}</style>
     </section>
   )
 }
