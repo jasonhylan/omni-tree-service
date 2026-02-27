@@ -8,7 +8,7 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div style={{ fontFamily: 'var(--font-sans)', background: 'var(--linen)', overflowX: 'hidden' }}>
       <Navbar />
       <Hero />
       <Features />
